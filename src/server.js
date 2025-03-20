@@ -6,4 +6,4 @@ app.use(express.json());
 app.use("/tarefas", tarefaRoutes);
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
-});
+}); 

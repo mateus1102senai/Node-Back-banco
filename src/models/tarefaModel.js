@@ -5,21 +5,30 @@ class TarefaModel {
     return await prisma.task.findMany();
   };
 
-  create = async (descricao) => { 
+  create = async (descricao) => {
     return await prisma.task.create({
       data: {
         descricao,
       },
     });
   };
-  update = (id, concluida) => {
-    const tarefa = this.tarefas.find((t) => t.id === Number(id));
-    if (tarefa) {
-      tarefa.concluida = concluida !== undefined ? concluida : tarefa.concluida;
+  update = async (id, concluida) => {
+    try {
+      const Tarefa = await prisma.task.update({
+        where: { id },
+        data: {
+          concluida: concluida !== undefined ? concluida: true
+        }
+      }) 
+
       return tarefa;
+    } catch (error) {
+      console.log(error);
+      throw error;
+
     }
-    return null;
   };
+
   delete = (id) => {
     const index = this.tarefas.findIndex((t) => t.id === Number(id));
     if (index !== -1) {
@@ -30,3 +39,4 @@ class TarefaModel {
   };
 }
 export default new TarefaModel();
+
